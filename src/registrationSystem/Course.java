@@ -16,9 +16,11 @@ public class Course {
     public ArrayList<CourseOffering> getCourseOfferings() {
         return courseOfferings;
     }
-    // add a course offering
-    public void addCourseOffering(CourseOffering courseOffering) {
-        this.courseOfferings.add(courseOffering);
+
+    // add a course offering.
+    public void addCourseOffering(String instructorName) {
+        var newOffering = new CourseOffering(this,instructorName);
+        this.courseOfferings.add(newOffering);
     }
 
 
