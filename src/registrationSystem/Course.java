@@ -1,21 +1,34 @@
 package registrationSystem;
 
+import java.util.ArrayList;
+
 public class Course {
     private String courseName;
     private String courseNumber;
-
-    private Course[] prereqs;
+    private ArrayList<CourseOffering> courseOfferings;
+    private ArrayList<Course> prereqs;
 
     public Course(String courseName, String courseNumber) {
         this.setCourseName(courseName);
         this.setCourseNumber(courseNumber);
     }
 
-    // constructor for if you want to include prereqs.
-    public Course(String courseName, String courseNumber, Course[] prereqs) {
-        this.setCourseName(courseName);
-        this.setCourseNumber(courseNumber);
-        this.setPrereqs(prereqs);
+    public ArrayList<CourseOffering> getCourseOfferings() {
+        return courseOfferings;
+    }
+    // add a course offering
+    public void addCourseOffering(CourseOffering courseOffering) {
+        this.courseOfferings.add(courseOffering);
+    }
+
+
+    public ArrayList<Course> getPrereqs() {
+        return prereqs;
+    }
+
+    // add a pre-requisite class
+    public void addPrereq(Course course) {
+        this.prereqs.add(course);
     }
 
     public String getCourseName() {
@@ -33,16 +46,6 @@ public class Course {
     public void setCourseNumber(String courseNumber) {
         this.courseNumber = courseNumber;
     }
-
-    public Course[] getPrereqs() {
-        return prereqs;
-    }
-
-    public void setPrereqs(Course[] prereqs) {
-        this.prereqs = prereqs;
-    }
-
-
 
     @Override
     public String toString() {
