@@ -5,10 +5,15 @@ public class Registration {
     private CourseOffering courseOffering;
     private String grade;
 
-    public Registration(Student student, CourseOffering courseOffering, String grade) {
+    public Registration(Student student, CourseOffering courseOffering) {
         this.student = student;
         this.courseOffering = courseOffering;
-        this.grade = grade;
+        addRegistration();
+    }
+
+    private void addRegistration() {
+        student.addRegistration(this);
+        courseOffering.addRegistration(this);
     }
 
 

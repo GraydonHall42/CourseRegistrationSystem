@@ -8,21 +8,18 @@ public class CourseOffering {
 
     // course associated with this course offering
     private Course course;
-
-    private String instructor;
+    private int sectionNum;
+    private int sectionCap;
     private ArrayList<Registration> registrations;
-    public CourseOffering(Course course, String instructor) {
+
+    public CourseOffering(Course course, int sectionNum, int sectionCap) {
         this.course = course;
-        this.instructor = instructor;
+        this.sectionNum = sectionNum;
+        this.sectionCap = sectionCap;
     }
 
     public ArrayList<Registration> getRegistrations() {
         return registrations;
-    }
-
-    // add Registration to Registration ArrayList.
-    public void addRegistration(Registration registration) {
-        this.registrations.add(registration);
     }
 
     public Course getCourse() {
@@ -33,11 +30,8 @@ public class CourseOffering {
         this.course = course;
     }
 
-    public String getInstructor() {
-        return instructor;
+    public void addRegistration(Registration reg){
+        registrations.add(reg);
     }
 
-    public void setInstructor(String instructor) {
-        this.instructor = instructor;
-    }
 }

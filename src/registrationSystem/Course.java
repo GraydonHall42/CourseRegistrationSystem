@@ -18,10 +18,10 @@ public class Course {
     }
 
     // add a course offering.
-    public void addCourseOffering(String instructorName) {
-        var newOffering = new CourseOffering(this,instructorName);
-        this.courseOfferings.add(newOffering);
-    }
+//    public void addCourseOffering(String instructorName) {
+//        var newOffering = new CourseOffering(this,instructorName);
+//        this.courseOfferings.add(newOffering);
+//    }
 
 
     public ArrayList<Course> getPrereqs() {
