@@ -8,6 +8,7 @@ public class CourseCatalogue {
     private ArrayList<Course> courseList;
 
     public CourseCatalogue(){
+        // loads data from fake database we hardcoded in
         courseList = loadFromDB();
     }
 
@@ -40,7 +41,7 @@ public class CourseCatalogue {
     }
     
     // return String list of all courses with all sections.
-    private String allCourseOfferingsAsString() {
+    public String allCourseOfferingsAsString() {
         String allCourseListingsString = "";
         for (Course c: courseList){
             allCourseListingsString+=c.allOfferingsAsString();
@@ -75,7 +76,6 @@ public class CourseCatalogue {
 
         return imaginaryDB;
     }
-
 
     // used to test out contents of course catalogue
     public static void main(String[] args) {

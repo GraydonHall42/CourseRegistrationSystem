@@ -9,7 +9,7 @@ public class Registration {
 
     // creates Registration object
     // if deleteReg = True, this registraion is REMOVED from the student and the course Offering
-    // if deleteReg = False, this registration is ADDED to the studend and the course offering
+    // if deleteReg = False, this registration is ADDED to the student and the course offering
     public Registration(Student student, CourseOffering courseOffering, boolean deleteReg) {
         this.student = student;
         this.courseOffering = courseOffering;
@@ -21,7 +21,7 @@ public class Registration {
 
     // remove this registration from student and course offering.
     private boolean removeRegistration() {
-        boolean success = student.removeRegistration(this);
+        boolean success = student.removeRegistration(this);  // true if addition is successful
         if (success) {
             courseOffering.removeRegistration(this);
             return true;
@@ -31,9 +31,7 @@ public class Registration {
 
     // add registration to student and course offering
     private boolean addRegistration() {
-        // adds the registration to the registrations list in
-        // the student, and in the courseOffering
-        boolean success = student.addRegistration(this);
+        boolean success = student.addRegistration(this);  // true if addition is successful
         if (success) {
             courseOffering.addRegistration(this);
             return true;
@@ -41,6 +39,7 @@ public class Registration {
             return false;
     }
 
+    // check for equality between two registrations, based on student and course offering both being identical
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

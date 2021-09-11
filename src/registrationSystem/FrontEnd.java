@@ -3,7 +3,7 @@ package registrationSystem;
 
 public class FrontEnd {
 
-    private Student s1, s2, s3, s4;  // students we make
+    private Student s1, s2, s3, s4;  // students we make for this assignment
     private CourseCatalogue cat;  // course catalogue
     private Student[] students;  // array to hold students
     private KeyboardReader reader;  // used to interact with user
@@ -20,6 +20,9 @@ public class FrontEnd {
         s3 = new Student("Joey", 3);
         s4 = new Student("Alex", 4);
         students = new Student[]{s1, s2, s3, s4};
+
+        // just hardcode in students name to make it more friendly for user, and since we only have 4 students
+        // to deal with. This prompt is displayed every time we ask someone to enter a student name.
         studentNamePrompt = "Please Enter Students Name (Jane, Sam, Joey, or Alex): ";
 
         // course catalogue
@@ -27,7 +30,7 @@ public class FrontEnd {
 
     }
 
-    // used to test out functionaity of program
+    // method to give main menu to user
     public void mainMenu(){
         while (true) {
             reader.display("\n---Welcome to Graydon Hall's Course Registration System---\n");
@@ -52,8 +55,8 @@ public class FrontEnd {
                     break;
                 case "4":
                     reader.display("\n---All Courses in Catalogue---\n");
-                    reader.display(cat.coursesAsString());
-//                    reader.display(cat.coursesWithPreReqsAsString());  // if they want all pre-reqs to be seen
+//                    reader.display(cat.coursesAsString());  // if we want just course names, no sections
+                    reader.display(cat.allCourseOfferingsAsString());  // if they want all sections to be seen
                     break;
                 case "5":
                     viewCoursesForStudent();
@@ -76,7 +79,7 @@ public class FrontEnd {
 
         Course theCourse = cat.searchCatalogue(className, classNum);
         if(theCourse==null){
-            System.out.println("Error, course not found");
+            System.out.println("Error, course not found. Returning to main menu.");
             return;
         }
 
@@ -139,7 +142,6 @@ public class FrontEnd {
         // will either add or delete, based on deleteReg parameter in method call
         Registration reg = new Registration(theStudent, theCourseOffering, deleteReg);
 
-
     }
 
     private void viewCoursesForStudent() {
@@ -158,16 +160,6 @@ public class FrontEnd {
             }
             reader.display("Student Not Found, Please Try Again\n");
         }
-
-//
-//
-//        reader.display(studentNamePrompt);
-//        String name = reader.getKeyboardInput();
-//        for(Student s: students){
-//            if(s.getStudentName().equals(name)){
-//                System.out.println(s.courseListAsString());
-//            }
-//        }
     }
 
     public static void main(String[] args) {

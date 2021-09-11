@@ -17,13 +17,16 @@ public class Course {
         this.prereqs = new ArrayList<Course>();
     }
 
-    // add a course offering to this course
+    // add a course offering to this course, based on section number and section capacity
     public void addCourseOffering(int sectionNum, int sectionCap) {
         var newOffering = new CourseOffering(this,sectionNum, sectionCap);
+
+        // could check for duplicates at this spot in future
         this.courseOfferings.add(newOffering);
     }
 
     // return course offering based on section number
+    // returns null if course offering not found
     public CourseOffering getCourseOffering(int secNum){
         for(CourseOffering c:courseOfferings){
             if(c.getSectionNum()==secNum)
@@ -57,6 +60,8 @@ public class Course {
 
     }
 
+
+    // compare equality of two courses based on name and course number
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,7 +71,7 @@ public class Course {
                 && Objects.equals(getCourseNumber(), course.getCourseNumber());
     }
 
-
+    // string representation of course: NAME COURSENUMBER
     @Override
     public String toString() {
         return this.courseName + " " + this.courseNumber;

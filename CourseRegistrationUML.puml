@@ -1,8 +1,8 @@
 @startuml
 class registrationSystem.CourseCatalogue {
 - ArrayList<Course> courseList
-+ Course searchCat(String,String)
-+ void listCourses()
++ <<Create>> CourseCatalogue()
++ Course searchCatalogue(String,String)
 + String coursesAsString()
 + String coursesWithPreReqsAsString()
 - String allCourseOfferingsAsString()
@@ -16,7 +16,9 @@ class registrationSystem.CourseOffering {
 - ArrayList<Registration> registrations
 - int studentsRegistered
 - boolean courseActive
-+ void addRegistration(Registration)
++ <<Create>> CourseOffering(Course,int,int)
++ boolean addRegistration(Registration)
+- boolean checkDuplicateReg(Registration)
 + boolean removeRegistration(Registration)
 - void checkActive()
 + String toString()
@@ -35,7 +37,9 @@ class registrationSystem.Student {
 - String studentName
 - int studentID
 - ArrayList<Registration> registrations
++ <<Create>> Student(String,int)
 + boolean addRegistration(Registration)
+- boolean checkDuplicateReg(Registration)
 + boolean removeRegistration(Registration)
 + String toString()
 + String courseListAsString()
@@ -50,6 +54,7 @@ class registrationSystem.Course {
 - String courseNumber
 - ArrayList<CourseOffering> courseOfferings
 - ArrayList<Course> prereqs
++ <<Create>> Course(String,String)
 + void addCourseOffering(int,int)
 + CourseOffering getCourseOffering(int)
 + void addPrereq(Course)
@@ -68,6 +73,7 @@ class registrationSystem.Registration {
 - Student student
 - CourseOffering courseOffering
 - String grade
++ <<Create>> Registration(Student,CourseOffering,boolean)
 - boolean removeRegistration()
 - boolean addRegistration()
 + boolean equals(Object)
@@ -79,20 +85,20 @@ class registrationSystem.Registration {
 class registrationSystem.FrontEnd {
 - Student s1
 - CourseCatalogue cat
-- Course c1
-- CourseOffering co1
 - Student[] students
-- CourseOffering[] courseOfferings
 - KeyboardReader reader
-+ void testProgram()
+- String studentNamePrompt
++ <<Create>> FrontEnd()
 + void mainMenu()
 - void searchCatalogue()
 - void modifyStudentCourses(boolean)
 - void viewCoursesForStudent()
 + {static} void main(String[])
++ void testProgram()
 }
 class registrationSystem.KeyboardReader {
 - BufferedReader reader
++ <<Create>> KeyboardReader()
 + String getKeyboardInput()
 + int getKeyboardInteger()
 + double getKeyboardDouble()

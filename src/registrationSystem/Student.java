@@ -16,6 +16,7 @@ public class Student {
         registrations = new ArrayList<Registration>();
     }
 
+    // Adds registration to registrations ArrayList
     // return true if registration is sucessfully added
     public boolean addRegistration(Registration reg){
         // checks if an identical registration already exists in registrations
@@ -43,9 +44,10 @@ public class Student {
         return false;
     }
 
+    // remove registration from registrations list
     // returns true if course is successfully removed
     public boolean removeRegistration(Registration registration) {
-        boolean removed = false;
+        boolean removed = false;  // becomes true if removal successful
         Iterator itr = registrations.iterator();
         while (itr.hasNext())
         {
@@ -60,6 +62,7 @@ public class Student {
         return removed;
     }
 
+    // string representation of student: NAME + ID
     @Override
     public String toString() {
         return getStudentName() +"- ID: " + getStudentID();
@@ -77,6 +80,7 @@ public class Student {
         return courseString;
     }
 
+    // check if two students are equal based on same name and ID
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -12,7 +12,7 @@ public class CourseOffering {
     private int sectionCap;
     private ArrayList<Registration> registrations;
     private int studentsRegistered;
-    private boolean courseActive;
+    private boolean courseActive;  // tracks if course is active (>=8 people enrolled)
 
     public CourseOffering(Course course, int sectionNum, int sectionCap) {
         this.course = course;
@@ -23,17 +23,17 @@ public class CourseOffering {
         courseActive=false;
     }
 
+    // Add registration to registrations list
     // returns true if registration is successfully added
     public boolean addRegistration(Registration reg){
         // checks if an identical registration already exists in registrations
         if(checkDuplicateReg(reg))
             return false;
 
-
         registrations.add(reg);
         studentsRegistered +=1;
         checkActive();
-        return true;
+        return true;  // registration was successfully added
     }
 
     // returns true if a duplicate registration already exists in registrations
@@ -77,6 +77,7 @@ public class CourseOffering {
             courseActive = false;
     }
 
+    // string representation of coure offering... give course name, section number, and section capacity
     @Override
     public String toString() {
         return "Course: " + course.toString()
@@ -96,6 +97,7 @@ public class CourseOffering {
         return courseString;
     }
 
+    // check equality between two course offerings based on sectionNum, sectionCap, and course all being equal
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
