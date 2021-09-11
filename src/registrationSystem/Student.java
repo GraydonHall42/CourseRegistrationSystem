@@ -1,40 +1,69 @@
 package registrationSystem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
 
 public class Student {
     private String studentName;
-
     private int studentID;
     private ArrayList<Registration> registrations;
+
+
     public Student(String studentName, int studentId){
         this.studentName = studentName;
         this.studentID = studentID;
+        registrations = new ArrayList<Registration>();
+    }
 
+
+    public boolean addRegistration(Registration reg){
+        if (registrations.size() < 6) {
+            registrations.add(reg);
+            return true;
+        } else
+            System.out.println("Student in 6 classes already. Please remove one and try again");
+            return false;
 
     }
 
-    // dictionary holding all the courses and their listing
-
-    private CourseCatalogue courseList;
-
-    // later: could add method so CourseCatalogue gets used.
-    // specify Course Full Name (key in Course Catalogue) and instructor
-    // use this to get specific course offering
-    // and then create registration using this.
-    // add registration to registrations ArrayList
-    public void registerForCourse(CourseCatalogue cat, String courseName,
-                                  String courseNumber, int secNumber){
-        Course myCourse = cat.searchCat(courseName, courseNumber);
-        if (myCourse == null)
-            return;
-        // if course exists, then we can look at the section
-        CourseOffering theOffering = myCourse.getCourseOfferings().get(secNumber-1); // must fix this later?
-        Registration reg = new Registration(this, theOffering);
+    // returns true if course is succesfully removed
+    public boolean removeRegistration(Registration registration) {
+        boolean removed = false;
+        Iterator itr = registrations.iterator();
+        while (itr.hasNext())
+        {
+            var x = itr.next();
+            if (x.equals(registration))
+                itr.remove();
+                removed = true;
+        }
+        if(!removed){
+            System.out.println("unable to remove registration. Please check information and try again");
+        }
+        return removed;
     }
 
-    public void addRegistration(Registration reg){
-        registrations.add(reg);
+    @Override
+    public String toString() {
+        return getStudentName() +", ID: " + getStudentID();
+    }
+
+    public String courseListAsString(){
+        var courseString="";
+        for(Registration r: registrations){
+            courseString += r.getCourseOffering().toString() + "\n";
+        }
+        return courseString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return getStudentID() == student.getStudentID()
+                && Objects.equals(getStudentName(), student.getStudentName());
     }
 
     public String getStudentName() {

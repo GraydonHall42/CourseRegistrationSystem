@@ -1,0 +1,59 @@
+@startuml
+class Course [[java:registrationSystem.Course]] {
+	-courseName: String
+	-courseNumber: String
+	-courseOfferings: ArrayList<CourseOffering>
+	-prereqs: ArrayList<Course>
+
+	+Course(courseName: String, courseNumber: String)
+	+addCourseOffering(int sectionNum, int sectionCap): void
+	+getPrereqs(): ArrayList<Course>
+	+addPrereq(course: Course): void
+	+getCourseName(): String
+	+setCourseName(courseName: String): void
+	+getCourseNumber(): String
+	+setCourseNumber(courseNumber: String): void
+	+toString(): String
+}
+
+class Registration [[java:registrationSystem.Registration]] {
+	-grade: String
+	+Registration(student: Student, courseOffering: CourseOffering)
+	-addRegistration(): void
+}
+
+class Student [[java:registrationSystem.Student]] {
+	-studentName: String
+	-studentID: int
+	+Student(studentName: String, studentId: int)
+	+registerForCourse(cat: CourseCatalogue, courseName: String, courseNumber: String, secNumber: int): void
+	+addRegistration(reg: Registration): void
+	+getStudentName(): String
+	+setStudentName(studentName: String): void
+	+getStudentID(): int
+	+setStudentID(studentID: int): void
+}
+
+class CourseOffering [[java:registrationSystem.CourseOffering]] {
+	-sectionNum: int
+	-sectionCap: int
+	+CourseOffering(course: Course, sectionNum: int, sectionCap: int)
+	+setCourse(course: Course): void
+	+addRegistration(reg: Registration): void
+}
+
+
+class CourseCatalogue [[java:registrationSystem.CourseCatalogue]] {
+	+CourseCatalogue()
+	+searchCat(courseName: String, courseNum: String): Course
+	+listCourses(): void
+	+toString(): String
+	-{static} loadFromDB(): ArrayList<Course>
+	+{static} main(args: String[]): void
+}
+
+class FrontEnd [[java:registrationSystem.FrontEnd]] {
+	+{static} main(args: String[]): void
+}
+
+@enduml
