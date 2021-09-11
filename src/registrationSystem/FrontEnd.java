@@ -110,8 +110,19 @@ public class FrontEnd {
         String className = reader.getKeyboardInput();
         reader.display("Enter Course Number: ");
         String classNum = reader.getKeyboardInput();
-        reader.display("Enter Section Number: ");
-        int secNum = reader.getKeyboardInteger();
+
+
+        int secNum = 0;
+        while(true){
+            try{
+                reader.display("Enter Section Number: ");
+                secNum = reader.getKeyboardInteger();
+                break;  // will get here if no error occurs
+            } catch (Exception e){
+                System.out.println("Invalid Entry, please enter an integer");
+            }
+        }
+
 
         Course theCourse = cat.searchCatalogue(className, classNum);
         if(theCourse==null){
