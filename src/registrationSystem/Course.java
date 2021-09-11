@@ -9,17 +9,12 @@ public class Course {
     private ArrayList<CourseOffering> courseOfferings;
     private ArrayList<Course> prereqs;
 
-    // constructor: provide coures name and number to build object
+    // constructor: provide course name and number to build Course object
     public Course(String courseName, String courseNumber) {
         this.setCourseName(courseName);
         this.setCourseNumber(courseNumber);
         this.courseOfferings = new ArrayList<CourseOffering>();
         this.prereqs = new ArrayList<Course>();
-    }
-
-    // return all course offerings
-    public ArrayList<CourseOffering> getCourseOfferings() {
-        return courseOfferings;
     }
 
     // add a course offering to this course
@@ -28,6 +23,7 @@ public class Course {
         this.courseOfferings.add(newOffering);
     }
 
+    // return course offering based on section number
     public CourseOffering getCourseOffering(int secNum){
         for(CourseOffering c:courseOfferings){
             if(c.getSectionNum()==secNum)
@@ -36,21 +32,12 @@ public class Course {
         return null;
     }
 
-
-    public ArrayList<Course> getPrereqs() {
-        return prereqs;
-    }
-
     // add a pre-requisite class to the course
     public void addPrereq(Course course) {
         this.prereqs.add(course);
     }
 
-    @Override
-    public String toString() {
-        return this.courseName + " " + this.courseNumber;
-    }
-
+    // return string of comma separated list of all the prereq classes
     public String preReqsAsString(){
         var prereqString = "";
         for(Course c: prereqs){
@@ -59,6 +46,8 @@ public class Course {
         return prereqString;
     }
 
+    // return string of all the sections of the course
+    //form: course name, section number, capacity
     public String allOfferingsAsString(){
         var offeringString = "";
         for(CourseOffering c: courseOfferings){
@@ -77,6 +66,12 @@ public class Course {
                 && Objects.equals(getCourseNumber(), course.getCourseNumber());
     }
 
+
+    @Override
+    public String toString() {
+        return this.courseName + " " + this.courseNumber;
+    }
+
     public String getCourseName() {
         return courseName;
     }
@@ -91,6 +86,14 @@ public class Course {
 
     public void setCourseNumber(String courseNumber) {
         this.courseNumber = courseNumber;
+    }
+
+    public ArrayList<CourseOffering> getCourseOfferings() {
+        return courseOfferings;
+    }
+
+    public ArrayList<Course> getPrereqs() {
+        return prereqs;
     }
 
 
