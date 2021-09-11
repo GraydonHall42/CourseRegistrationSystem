@@ -99,9 +99,11 @@ public class FrontEnd {
                 if(s.getStudentName().equals(name)){
                     theStudent = s;
                     studentFound = true;
+                    break;
                 }
             }
-            reader.display("Student Not Found, Please Try Again\n");
+            if(!studentFound)
+                reader.display("Student Not Found, Please Try Again\n");
         }
 
         reader.display("Enter Course Name: ");

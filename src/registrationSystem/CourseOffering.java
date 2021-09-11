@@ -40,6 +40,7 @@ public class CourseOffering {
     private boolean checkDuplicateReg(Registration reg){
         for(Registration r: registrations){
             if (r.equals(reg)){
+                System.out.println("Registration Failure: Student already registered in this course.");
                 return true;
             }
         }
