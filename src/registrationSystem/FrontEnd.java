@@ -1,45 +1,179 @@
 package registrationSystem;
 
+
 public class FrontEnd {
 
-    private Student s1, s2, s3, s4;
-    private CourseCatalogue cat;
-    private Course c1, c2, c3;
-    private CourseOffering co1, co2, co3;
-    private Student[] students;
-    private CourseOffering[] courseOfferings;
-    private KeyboardReader reader;
-
+    private Student s1, s2, s3, s4;  // students we make
+    private CourseCatalogue cat;  // course catalogue
+    private Student[] students;  // array to hold students
+    private KeyboardReader reader;  // used to interact with user
+    private String studentNamePrompt;
+    
+    // populate front end with generic students and courses
     public FrontEnd() {
 
         reader = new KeyboardReader();
 
-        // 4 students
+        // 4 students that the user can choose from
         s1 = new Student("Jane", 1);
         s2 = new Student("Sam", 2);
         s3 = new Student("Joey", 3);
         s4 = new Student("Alex", 4);
         students = new Student[]{s1, s2, s3, s4};
+        studentNamePrompt = "Please Enter Students Name (Jane, Sam, Joey, or Alex): ";
 
         // course catalogue
         cat = new CourseCatalogue();
 
-        // 3 courses from catalogue
-        c1 = cat.searchCat("ENGG", "233");
-        c2 = cat.searchCat("PHYS", "259");
-        c3 = cat.searchCat("ENSF", "607");
+    }
 
-        // 1 course offerings from each course
-        co1 = c1.getCourseOffering(1);
-        co2 = c2.getCourseOffering(1);
-        co3 = c3.getCourseOffering(1);
-        courseOfferings = new CourseOffering[]{co1, co2, co3};
+    // used to test out functionaity of program
+    public void mainMenu(){
+        while (true) {
+            reader.display("\n---Welcome to Graydon Hall's Course Registration System---\n");
+            reader.display("Please select one of the following options:\n");
+            reader.display("1. Search catalogue courses\n");
+            reader.display("2. Add course to student courses\n");
+            reader.display("3. Remove course from student courses\n");
+            reader.display("4. View All courses in catalogue\n");
+            reader.display("5. View all courses taken by student\n");
+            reader.display("6. Quit\n");
+            reader.display("Enter your option: ");
+            String response = reader.getKeyboardInput();
+            switch (response) {
+                case "1":
+                    searchCatalogue();
+                    break;
+                case "2":
+                    modifyStudentCourses(false);
+                    break;
+                case "3":
+                    modifyStudentCourses(true);
+                    break;
+                case "4":
+                    reader.display("\n---All Courses in Catalogue---\n");
+                    reader.display(cat.coursesAsString());
+//                    reader.display(cat.coursesWithPreReqsAsString());  // if they want all pre-reqs to be seen
+                    break;
+                case "5":
+                    viewCoursesForStudent();
+                    break;
+                case "6":
+                    reader.display("Thanks! Bye for now :)");
+                    return;
+                default:
+                    reader.display("Invalid Entry. Enter integer from 1 to 6\n");
+                    break;
+            }
+        }
+    }
 
+    private void searchCatalogue() {
+        reader.display("Enter Course Name: ");
+        String className = reader.getKeyboardInput();
+        reader.display("Enter Course Number: ");
+        String classNum = reader.getKeyboardInput();
+
+        Course theCourse = cat.searchCatalogue(className, classNum);
+        if(theCourse==null){
+            System.out.println("Error, course not found");
+            return;
+        }
+
+        reader.display("\n---The following Sections exist for this course---\n");
+        System.out.println(theCourse.allOfferingsAsString());
+
+    }
+
+    // used to either Add or Delete a course based on Student Name, Course Name, Number, and section number
+    // if deleteReg=True, the registration is deleted for the student
+    // if deleteReg=False, the registration is added for the student
+    private void modifyStudentCourses(boolean deleteReg) {
+        Student theStudent = null;
+        boolean studentFound = false;
+
+        while(!studentFound){
+            reader.display(studentNamePrompt);
+            String name = reader.getKeyboardInput();
+            for(Student s: students){
+                if(s.getStudentName().equals(name)){
+                    theStudent = s;
+                    studentFound = true;
+                }
+            }
+            reader.display("Student Not Found, Please Try Again\n");
+        }
+
+        reader.display("Enter Course Name: ");
+        String className = reader.getKeyboardInput();
+        reader.display("Enter Course Number: ");
+        String classNum = reader.getKeyboardInput();
+        reader.display("Enter Section Number: ");
+        int secNum = reader.getKeyboardInteger();
+
+        Course theCourse = cat.searchCatalogue(className, classNum);
+        if(theCourse==null){
+            System.out.println("Error, course not found");
+            return;
+        }
+
+        CourseOffering theCourseOffering = theCourse.getCourseOffering(secNum);
+        if(theCourseOffering==null){
+            System.out.println("Invalid Course Section provided");
+            return;
+        }
+
+        // will either add or delete, based on deleteReg parameter in method call
+        Registration reg = new Registration(theStudent, theCourseOffering, deleteReg);
 
 
     }
 
+    private void viewCoursesForStudent() {
+        Student theStudent = null;
+        boolean studentFound = false;
+        while(true){
+            reader.display(studentNamePrompt);
+            String name = reader.getKeyboardInput();
+            for(Student s: students){
+                if(s.getStudentName().equals(name)){
+                    System.out.println("\nCourse List for " + name + ":");
+                    System.out.println(s.courseListAsString());
+                    studentFound = true;
+                    return;
+                }
+            }
+            reader.display("Student Not Found, Please Try Again\n");
+        }
+
+//
+//
+//        reader.display(studentNamePrompt);
+//        String name = reader.getKeyboardInput();
+//        for(Student s: students){
+//            if(s.getStudentName().equals(name)){
+//                System.out.println(s.courseListAsString());
+//            }
+//        }
+    }
+
+    public static void main(String[] args) {
+        var x = new FrontEnd();
+        x.mainMenu();
+    }
+
     public void testProgram() {
+
+        // 3 courses from catalogue
+        Course c1 = cat.searchCatalogue("ENGG", "233");
+        Course c2 = cat.searchCatalogue("PHYS", "259");
+        Course c3 = cat.searchCatalogue("ENSF", "607");
+
+        // 1 course offerings from each course
+        CourseOffering co1 = c1.getCourseOffering(1);
+        CourseOffering co2 = c2.getCourseOffering(1);
+        CourseOffering co3 = c3.getCourseOffering(1);
+        CourseOffering[] courseOfferings = new CourseOffering[]{co1, co2, co3};
 
         // create registrations, for each student in each course offering
         for(Student s:students){
@@ -85,121 +219,6 @@ public class FrontEnd {
             System.out.println(c.studentListAsString());
         }
 
-    }
-
-    public void mainMenu(){
-        while (true) {
-            reader.display("\n---Welcome to Graydon Hall's Course Registration System---\n");
-            reader.display("Please select one of the following options:\n");
-            reader.display("1. Search catalogue courses\n");
-            reader.display("2. Add course to student courses\n");
-            reader.display("3. Remove course from student courses\n");
-            reader.display("4. View All courses in catalogue\n");
-            reader.display("5. View all courses taken by student\n");
-            reader.display("6. Quit\n");
-            reader.display("Enter your option: ");
-            String response = reader.getKeyboardInput();
-            switch (response) {
-                case "1":
-                    searchCatalogue();
-                    break;
-                case "2":
-                    modifyStudentCourses(false);
-                    break;
-                case "3":
-                    modifyStudentCourses(true);
-                    break;
-                case "4":
-                    reader.display("\n---All Courses in Catalogue---\n");
-                    reader.display(cat.coursesAsString());
-                    break;
-                case "5":
-                    viewCoursesForStudent();
-                    break;
-                case "6":
-                    reader.display("Thanks! Bye for now :)");
-                    return;
-                default:
-                    reader.display("Invalid Entry. Enter integer from 1 to 6\n");
-                    break;
-            }
-        }
-    }
-
-    private void searchCatalogue() {
-        reader.display("Enter Course Name: ");
-        String className = reader.getKeyboardInput();
-        reader.display("Enter Course Number: ");
-        String classNum = reader.getKeyboardInput();
-
-        Course theCourse = cat.searchCat(className, classNum);
-        if(theCourse==null){
-            System.out.println("Error, course not found");
-            return;
-        }
-
-        reader.display("\n---The following Sections exist for this course---\n");
-        System.out.println(theCourse.allOfferingsAsString());
-
-    }
-
-    private void modifyStudentCourses(boolean deleteReg) {
-        Student theStudent = null;
-        boolean studentFound = false;
-
-        reader.display("Please Enter Students Name: ");
-        String name = reader.getKeyboardInput();
-        for(Student s: students){
-            if(s.getStudentName().equals(name)){
-                theStudent = s;
-                studentFound = true;
-            }
-        }
-        if (studentFound==false){
-            reader.display("Student Not Found, Please Try Again\n");
-            return;
-        }
-
-
-        reader.display("Enter Course Name: ");
-        String className = reader.getKeyboardInput();
-        reader.display("Enter Course Number: ");
-        String classNum = reader.getKeyboardInput();
-        reader.display("Enter Section Number: ");
-        int secNum = reader.getKeyboardInteger();
-
-        Course theCourse = cat.searchCat(className, classNum);
-        if(theCourse==null){
-            System.out.println("Error, course not found");
-            return;
-        }
-
-        CourseOffering theCourseOffering = theCourse.getCourseOffering(secNum);
-        if(theCourseOffering==null){
-            System.out.println("Invalid Course Section provided");
-            return;
-        }
-
-        // will either add or delete, based on deleteReg parameter in method call
-        Registration reg = new Registration(theStudent, theCourseOffering, deleteReg);
-
-
-    }
-
-
-    private void viewCoursesForStudent() {
-        reader.display("Please Enter Students Name:");
-        String name = reader.getKeyboardInput();
-        for(Student s: students){
-            if(s.getStudentName().equals(name)){
-                System.out.println(s.courseListAsString());
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        var x = new FrontEnd();
-        x.mainMenu();
     }
 
 

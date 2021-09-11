@@ -7,8 +7,7 @@ import java.util.Iterator;
 // can add other details like term, etc if required
 public class CourseOffering {
 
-    // course associated with this course offering
-    private Course course;
+    private Course course;    // course associated with this course offering
     private int sectionNum;
     private int sectionCap;
     private ArrayList<Registration> registrations;
@@ -24,12 +23,30 @@ public class CourseOffering {
         courseActive=false;
     }
 
-    public void addRegistration(Registration reg){
+    // returns true if registration is successfully added
+    public boolean addRegistration(Registration reg){
+        // checks if an identical registration already exists in registrations
+        if(checkDuplicateReg(reg))
+            return false;
+
+
         registrations.add(reg);
         studentsRegistered +=1;
         checkActive();
+        return true;
     }
 
+    // returns true if a duplicate registration already exists in registrations
+    private boolean checkDuplicateReg(Registration reg){
+        for(Registration r: registrations){
+            if (r.equals(reg)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // returns true if registration is successfully removed
     public boolean removeRegistration(Registration registration) {
         var success = false;
         Iterator itr = registrations.iterator();
@@ -50,6 +67,7 @@ public class CourseOffering {
         return success;
     }
 
+    // course has active status if >= 8 students are enrolled in it.
     private void checkActive(){
         if(studentsRegistered >= 8){
             courseActive = true;
@@ -61,11 +79,15 @@ public class CourseOffering {
     @Override
     public String toString() {
         return "Course: " + course.toString()
-                + ", SecNum: " + sectionNum
-                + ", SecCapacity: " + sectionCap;
+                + ", Section Num: " + sectionNum
+                + ", Section Capacity: " + sectionCap;
     }
 
+    // return String with all students enrolled in the course
     public String studentListAsString(){
+        if(registrations.isEmpty()){
+            return "Student not enrolled in any courses";
+        }
         var courseString="";
         for(Registration r: registrations){
             courseString += r.getStudent().toString() + "\n";

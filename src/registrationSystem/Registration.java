@@ -7,7 +7,9 @@ public class Registration {
     private CourseOffering courseOffering;
     private String grade;
 
-
+    // creates Registration object
+    // if deleteReg = True, this registraion is REMOVED from the student and the course Offering
+    // if deleteReg = False, this registration is ADDED to the studend and the course offering
     public Registration(Student student, CourseOffering courseOffering, boolean deleteReg) {
         this.student = student;
         this.courseOffering = courseOffering;
@@ -17,6 +19,7 @@ public class Registration {
             addRegistration();
     }
 
+    // remove this registration from student and course offering.
     private boolean removeRegistration() {
         boolean success = student.removeRegistration(this);
         if (success) {
@@ -26,6 +29,7 @@ public class Registration {
             return false;
     }
 
+    // add registration to student and course offering
     private boolean addRegistration() {
         // adds the registration to the registrations list in
         // the student, and in the courseOffering

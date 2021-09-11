@@ -16,8 +16,13 @@ public class Student {
         registrations = new ArrayList<Registration>();
     }
 
-
+    // return true if registration is sucessfully added
     public boolean addRegistration(Registration reg){
+        // checks if an identical registration already exists in registrations
+        if(checkDuplicateReg(reg))
+            return false;
+
+        // ensure student does not enroll in > 6 courses
         if (registrations.size() < 6) {
             registrations.add(reg);
             return true;
@@ -27,7 +32,17 @@ public class Student {
 
     }
 
-    // returns true if course is succesfully removed
+    // returns true if a duplicate registration already exists in registrations
+    private boolean checkDuplicateReg(Registration reg){
+        for(Registration r: registrations){
+            if (r.equals(reg)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // returns true if course is successfully removed
     public boolean removeRegistration(Registration registration) {
         boolean removed = false;
         Iterator itr = registrations.iterator();
@@ -46,11 +61,15 @@ public class Student {
 
     @Override
     public String toString() {
-        return getStudentName() +", ID: " + getStudentID();
+        return getStudentName() +"- ID: " + getStudentID();
     }
 
+    // return String of all courses the student is in
     public String courseListAsString(){
         var courseString="";
+        if(registrations.isEmpty()){
+            return "Student not enrolled in any courses";
+        }
         for(Registration r: registrations){
             courseString += r.getCourseOffering().toString() + "\n";
         }

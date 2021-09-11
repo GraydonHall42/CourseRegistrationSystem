@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public class CourseCatalogue {
 
-    // dictionary to hold courses. Key= course Name+number, value=course object
+    // ArrayList to hold courses.
     private ArrayList<Course> courseList;
 
     public CourseCatalogue(){
         courseList = loadFromDB();
     }
 
-    public Course searchCat(String courseName, String courseNum ){
+    // searches catalogue based on course Name and Number. Returns null if course not found.
+    public Course searchCatalogue(String courseName, String courseNum ){
         for (Course c: courseList){
             if (c.getCourseName().equals(courseName) && c.getCourseNumber().equals(courseNum)){
                 return c;
@@ -20,11 +21,7 @@ public class CourseCatalogue {
         return null;
     }
 
-    public void listCourses(){
-
-    }
-
-
+    // return String list of all courses
     public String coursesAsString() {
         String courseListAsString = "";
         for (Course c: courseList){
@@ -32,6 +29,8 @@ public class CourseCatalogue {
         }
         return courseListAsString;
     }
+
+    // return String list of all coures and their prereq classes
     public String coursesWithPreReqsAsString() {
         String courseListAsString = "";
         for (Course c: courseList){
@@ -39,7 +38,8 @@ public class CourseCatalogue {
         }
         return courseListAsString;
     }
-
+    
+    // return String list of all courses with all sections.
     private String allCourseOfferingsAsString() {
         String allCourseListingsString = "";
         for (Course c: courseList){
@@ -48,11 +48,9 @@ public class CourseCatalogue {
         return allCourseListingsString;
     }
 
-
-
-
+    // populate CourseCatalogue database by hand
     private static ArrayList<Course> loadFromDB(){
-        // populate CourseCatalogue database by hand
+
         ArrayList<Course> imaginaryDB = new ArrayList<Course>();
 
         // add initial courses

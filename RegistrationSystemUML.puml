@@ -1,0 +1,103 @@
+@startuml
+class registrationSystem.CourseCatalogue {
+- ArrayList<Course> courseList
++ Course searchCat(String,String)
++ void listCourses()
++ String coursesAsString()
++ String coursesWithPreReqsAsString()
+- String allCourseOfferingsAsString()
+- {static} ArrayList<Course> loadFromDB()
++ {static} void main(String[])
+}
+class registrationSystem.CourseOffering {
+- Course course
+- int sectionNum
+- int sectionCap
+- ArrayList<Registration> registrations
+- int studentsRegistered
+- boolean courseActive
++ void addRegistration(Registration)
++ boolean removeRegistration(Registration)
+- void checkActive()
++ String toString()
++ String studentListAsString()
++ boolean equals(Object)
++ ArrayList<Registration> getRegistrations()
++ Course getCourse()
++ void setCourse(Course)
++ int getSectionNum()
++ void setSectionNum(int)
++ int getSectionCap()
++ void setSectionCap(int)
++ boolean isCourseActive()
+}
+class registrationSystem.Student {
+- String studentName
+- int studentID
+- ArrayList<Registration> registrations
++ boolean addRegistration(Registration)
++ boolean removeRegistration(Registration)
++ String toString()
++ String courseListAsString()
++ boolean equals(Object)
++ String getStudentName()
++ void setStudentName(String)
++ int getStudentID()
++ void setStudentID(int)
+}
+class registrationSystem.Course {
+- String courseName
+- String courseNumber
+- ArrayList<CourseOffering> courseOfferings
+- ArrayList<Course> prereqs
++ void addCourseOffering(int,int)
++ CourseOffering getCourseOffering(int)
++ void addPrereq(Course)
++ String preReqsAsString()
++ String allOfferingsAsString()
++ boolean equals(Object)
++ String toString()
++ String getCourseName()
++ void setCourseName(String)
++ String getCourseNumber()
++ void setCourseNumber(String)
++ ArrayList<CourseOffering> getCourseOfferings()
++ ArrayList<Course> getPrereqs()
+}
+class registrationSystem.Registration {
+- Student student
+- CourseOffering courseOffering
+- String grade
+- boolean removeRegistration()
+- boolean addRegistration()
++ boolean equals(Object)
++ Student getStudent()
++ void setStudent(Student)
++ CourseOffering getCourseOffering()
++ void setCourseOffering(CourseOffering)
+}
+class registrationSystem.FrontEnd {
+- Student s1
+- CourseCatalogue cat
+- Course c1
+- CourseOffering co1
+- Student[] students
+- CourseOffering[] courseOfferings
+- KeyboardReader reader
++ void testProgram()
++ void mainMenu()
+- void searchCatalogue()
+- void modifyStudentCourses(boolean)
+- void viewCoursesForStudent()
++ {static} void main(String[])
+}
+class registrationSystem.KeyboardReader {
+- BufferedReader reader
++ String getKeyboardInput()
++ int getKeyboardInteger()
++ double getKeyboardDouble()
++ void prompt(String)
++ void display(String)
+- String readKeyboard()
+}
+@enduml
