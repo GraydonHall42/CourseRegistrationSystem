@@ -8,12 +8,18 @@ public class Student {
     private String studentName;
     private int studentID;
     private ArrayList<Registration> registrations;
+    private ArrayList<Course> coursesCompleted;  // holds courses completed by the student
 
 
     public Student(String studentName, int studentId){
         this.studentName = studentName;
         this.studentID = studentID;
         registrations = new ArrayList<Registration>();
+        coursesCompleted = new ArrayList<Course>();
+    }
+
+    public void addCompletedCourse(Course c){
+        coursesCompleted.add(c);
     }
 
     // Adds registration to registrations ArrayList
@@ -23,14 +29,32 @@ public class Student {
         if(checkDuplicateReg(reg))
             return false;
 
+        // ensure this student has the correct pre-requisite courses
+        if(!checkPreReqs(reg))
+            return false;
+
         // ensure student does not enroll in > 6 courses
         if (registrations.size() < 6) {
             registrations.add(reg);
             return true;
         } else
-            System.out.println("Student in 6 classes already. Please remove one and try again");
+            System.out.println("Registration failure: Student in 6 classes already.");
             return false;
 
+    }
+
+    // check that the student has the correct pre-requisite courses
+    // returns true if all prereqs are satisfied
+    private boolean checkPreReqs(Registration reg) {
+        // https://stackoverflow.com/questions/13501142/java-arraylist-how-can-i-tell-if-two-lists-are-equal-order-not-mattering
+        Course c = reg.getCourseOffering().getCourse();
+        ArrayList<Course> prereqs = c.getPrereqs();
+        if(prereqs.containsAll(coursesCompleted) && coursesCompleted.containsAll(prereqs)){
+            return true;
+        } else {
+            System.out.println("Registration Falure: Student does not satisfy pre-requiste requirements");
+            return false;
+        }
     }
 
     // returns true if a duplicate registration already exists in registrations

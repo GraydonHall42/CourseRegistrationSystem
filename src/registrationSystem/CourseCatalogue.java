@@ -66,6 +66,11 @@ public class CourseCatalogue {
             c.addPrereq(new Course("ENSF", "594"));
         }
 
+//        // in case we want these in catalogue...
+//        imaginaryDB.add(new Course("ENSF", "592"));
+//        imaginaryDB.add(new Course("ENSF", "593"));
+//        imaginaryDB.add(new Course("ENSF", "594"));
+
 
         // add 3 offerings to each course, with capacity of 80 students
         for (Course c: imaginaryDB){

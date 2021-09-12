@@ -21,6 +21,14 @@ public class FrontEnd {
         s4 = new Student("Alex", 4);
         students = new Student[]{s1, s2, s3, s4};
 
+        // give all students the correct pre-requisite courses
+        // can comment one out to test functinality of student missing a prereq
+        for (Student s: students){
+            s.addCompletedCourse(new Course("ENSF", "592"));
+            s.addCompletedCourse(new Course("ENSF", "593"));
+//            s.addCompletedCourse(new Course("ENSF", "594"));
+        }
+
         // just hardcode in students name to make it more friendly for user, and since we only have 4 students
         // to deal with. This prompt is displayed every time we ask someone to enter a student name.
         studentNamePrompt = "Please Enter Students Name (Jane, Sam, Joey, or Alex): ";
