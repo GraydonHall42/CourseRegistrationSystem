@@ -33,6 +33,12 @@ public class Student {
         if(!checkPreReqs(reg))
             return false;
 
+        // check that course offering is not over capacity...
+        if(reg.getCourseOffering().isCourseFull()) {
+            System.out.println("Registration failure: Course Offering is Full");
+            return false;
+        }
+
         // ensure student does not enroll in > 6 courses
         if (registrations.size() < 6) {
             registrations.add(reg);

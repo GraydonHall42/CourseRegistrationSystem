@@ -63,7 +63,7 @@ public class CourseCatalogue {
         for (Course c: imaginaryDB){
             c.addPrereq(new Course("ENSF", "592"));
             c.addPrereq(new Course("ENSF", "593"));
-            c.addPrereq(new Course("ENSF", "594"));
+            c.addPrereq(new Course("ENSF", "594"));  // comment out to check pre-req checking
         }
 
 //        // in case we want these in catalogue...
@@ -74,7 +74,7 @@ public class CourseCatalogue {
 
         // add 3 offerings to each course, with capacity of 80 students
         for (Course c: imaginaryDB){
-            c.addCourseOffering(1, 80);
+            c.addCourseOffering(1, 80);  // change sectionCap to 1 to check max capacity checking
             c.addCourseOffering(2, 80);
             c.addCourseOffering(3, 80);
         }

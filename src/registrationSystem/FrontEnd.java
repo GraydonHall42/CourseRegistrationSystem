@@ -26,7 +26,7 @@ public class FrontEnd {
         for (Student s: students){
             s.addCompletedCourse(new Course("ENSF", "592"));
             s.addCompletedCourse(new Course("ENSF", "593"));
-//            s.addCompletedCourse(new Course("ENSF", "594"));
+            s.addCompletedCourse(new Course("ENSF", "594"));
         }
 
         // just hardcode in students name to make it more friendly for user, and since we only have 4 students

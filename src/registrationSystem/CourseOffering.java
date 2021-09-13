@@ -13,6 +13,7 @@ public class CourseOffering {
     private ArrayList<Registration> registrations;
     private int studentsRegistered;
     private boolean courseActive;  // tracks if course is active (>=8 people enrolled)
+    private boolean courseFull;  // true if course is at capacity
 
     public CourseOffering(Course course, int sectionNum, int sectionCap) {
         this.course = course;
@@ -32,10 +33,10 @@ public class CourseOffering {
 
         registrations.add(reg);
         studentsRegistered +=1;
+        checkFull();
         checkActive();
         return true;  // registration was successfully added
     }
-
     // returns true if a duplicate registration already exists in registrations
     private boolean checkDuplicateReg(Registration reg){
         for(Registration r: registrations){
@@ -46,7 +47,6 @@ public class CourseOffering {
         }
         return false;
     }
-
     // returns true if registration is successfully removed
     public boolean removeRegistration(Registration registration) {
         var success = false;
@@ -64,6 +64,7 @@ public class CourseOffering {
         if(!success){
             System.out.println("unable to remove registration. Please check information and try again");
         }
+        checkFull();
         checkActive();
         return success;
     }
@@ -77,6 +78,12 @@ public class CourseOffering {
             courseActive = false;
     }
 
+    // checks if course is full
+    // sets courseFull field to True if studentsRegistered is >= the section capacity
+    private void checkFull(){
+        courseFull = (studentsRegistered >= sectionCap);
+    }
+
     // string representation of coure offering... give course name, section number, and section capacity
     @Override
     public String toString() {
@@ -84,7 +91,6 @@ public class CourseOffering {
                 + ", Section Num: " + sectionNum
                 + ", Section Capacity: " + sectionCap;
     }
-
     // return String with all students enrolled in the course
     public String studentListAsString(){
         if(registrations.isEmpty()){
@@ -96,7 +102,6 @@ public class CourseOffering {
         }
         return courseString;
     }
-
     // check equality between two course offerings based on sectionNum, sectionCap, and course all being equal
     @Override
     public boolean equals(Object o) {
@@ -107,7 +112,6 @@ public class CourseOffering {
                 && sectionCap == that.sectionCap
                 && getCourse().equals(that.getCourse());
     }
-
     public ArrayList<Registration> getRegistrations() {
         return registrations;
     }
@@ -140,4 +144,7 @@ public class CourseOffering {
         return courseActive;
     }
 
+    public boolean isCourseFull() {
+        return courseFull;
+    }
 }
