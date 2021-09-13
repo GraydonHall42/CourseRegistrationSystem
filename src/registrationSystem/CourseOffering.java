@@ -89,7 +89,8 @@ public class CourseOffering {
     public String toString() {
         return "Course: " + course.toString()
                 + ", Section Num: " + sectionNum
-                + ", Section Capacity: " + sectionCap;
+                + ", Section Capacity: " + sectionCap
+                + ", Section Active: " + courseActive;
     }
     // return String with all students enrolled in the course
     public String studentListAsString(){

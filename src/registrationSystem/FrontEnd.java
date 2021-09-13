@@ -63,8 +63,8 @@ public class FrontEnd {
                     break;
                 case "4":
                     reader.display("\n---All Courses in Catalogue---\n");
-//                    reader.display(cat.coursesAsString());  // if we want just course names, no sections
-                    reader.display(cat.allCourseOfferingsAsString());  // if they want all sections to be seen
+                    reader.display(cat.coursesAsString());  // if we want just course names, no sections
+//                    reader.display(cat.allCourseOfferingsAsString());  // if they want all sections to be seen
                     break;
                 case "5":
                     viewCoursesForStudent();
