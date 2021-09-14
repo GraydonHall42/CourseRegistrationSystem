@@ -87,10 +87,8 @@ public class FrontEnd {
 
         Course theCourse = cat.searchCatalogue(className, classNum);
         if(theCourse==null){
-            System.out.println("Error, course not found. Returning to main menu.");
             return;
         }
-
         reader.display("\n---The following Sections exist for this course---\n");
         System.out.println(theCourse.allOfferingsAsString());
 
@@ -100,9 +98,10 @@ public class FrontEnd {
     // if deleteReg=True, the registration is deleted for the student
     // if deleteReg=False, the registration is added for the student
     private void modifyStudentCourses(boolean deleteReg) {
+
+        // determine student the user wants to add/delete course for
         Student theStudent = null;
         boolean studentFound = false;
-
         while(!studentFound){
             reader.display(studentNamePrompt);
             String name = reader.getKeyboardInput();
@@ -117,12 +116,11 @@ public class FrontEnd {
                 reader.display("Student Not Found, Please Try Again\n");
         }
 
+        // find course name, number, and section
         reader.display("Enter Course Name: ");
         String className = reader.getKeyboardInput();
         reader.display("Enter Course Number: ");
         String classNum = reader.getKeyboardInput();
-
-
         int secNum = 0;
         while(true){
             try{
@@ -134,21 +132,12 @@ public class FrontEnd {
             }
         }
 
-
-        Course theCourse = cat.searchCatalogue(className, classNum);
-        if(theCourse==null){
-            System.out.println("Error, course not found");
-            return;
-        }
-
-        CourseOffering theCourseOffering = theCourse.getCourseOffering(secNum);
-        if(theCourseOffering==null){
-            System.out.println("Invalid Course Section provided");
-            return;
-        }
-
         // will either add or delete, based on deleteReg parameter in method call
-        Registration reg = new Registration(theStudent, theCourseOffering, deleteReg);
+        // validCourse will be true if course name/number/section number are all valid
+        boolean validCourse = theStudent.createRegistration(className, classNum, secNum, deleteReg);
+        if(!validCourse){
+            return;  // return to main menu if course information was invalid
+        }
 
     }
 

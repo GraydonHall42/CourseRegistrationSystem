@@ -19,6 +19,7 @@ public class CourseCatalogue {
                 return c;
             }
         }
+        System.out.println("Error, course not found. Returning to main menu.");
         return null;
     }
 

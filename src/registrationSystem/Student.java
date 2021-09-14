@@ -9,6 +9,7 @@ public class Student {
     private int studentID;
     private ArrayList<Registration> registrations;
     private ArrayList<Course> coursesCompleted;  // holds courses completed by the student
+    private CourseCatalogue courseCat;
 
 
     public Student(String studentName, int studentId){
@@ -16,6 +17,7 @@ public class Student {
         this.studentID = studentID;
         registrations = new ArrayList<Registration>();
         coursesCompleted = new ArrayList<Course>();
+        courseCat = new CourseCatalogue();
     }
 
     public void addCompletedCourse(Course c){
@@ -92,6 +94,8 @@ public class Student {
         return removed;
     }
 
+
+
     // string representation of student: NAME + ID
     @Override
     public String toString() {
@@ -134,5 +138,25 @@ public class Student {
 
     public void setStudentID(int studentID) {
         this.studentID = studentID;
+    }
+
+    public boolean createRegistration(String className, String classNum, int secNum, boolean deleteReg) {
+
+        // search catalogue to check that this course is valid... if not, go back to main menu via return
+        Course theCourse = courseCat.searchCatalogue(className, classNum);
+        if(theCourse==null){
+            System.out.println("Error, course not found");
+            return false;
+        }
+
+        // for course, search offerings to check that this section is valid. ... if not, go back to main menu via return
+        CourseOffering theCourseOffering = theCourse.getCourseOffering(secNum);
+        if(theCourseOffering==null){
+            System.out.println("Invalid Course Section provided");
+            return false;
+        }
+
+        Registration reg = new Registration(this, theCourseOffering, deleteReg);
+        return true;
     }
 }

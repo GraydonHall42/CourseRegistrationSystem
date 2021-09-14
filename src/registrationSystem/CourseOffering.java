@@ -14,6 +14,7 @@ public class CourseOffering {
     private int studentsRegistered;
     private boolean courseActive;  // tracks if course is active (>=8 people enrolled)
     private boolean courseFull;  // true if course is at capacity
+    private int minForActive = 8;
 
     public CourseOffering(Course course, int sectionNum, int sectionCap) {
         this.course = course;
@@ -37,6 +38,7 @@ public class CourseOffering {
         checkActive();
         return true;  // registration was successfully added
     }
+
     // returns true if a duplicate registration already exists in registrations
     private boolean checkDuplicateReg(Registration reg){
         for(Registration r: registrations){
@@ -47,6 +49,7 @@ public class CourseOffering {
         }
         return false;
     }
+
     // returns true if registration is successfully removed
     public boolean removeRegistration(Registration registration) {
         var success = false;
@@ -71,7 +74,7 @@ public class CourseOffering {
 
     // course has active status if >= 8 students are enrolled in it.
     private void checkActive(){
-        if(studentsRegistered >= 8){
+        if(studentsRegistered >= minForActive){
             courseActive = true;
         }
         else
